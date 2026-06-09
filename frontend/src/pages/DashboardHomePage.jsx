@@ -27,7 +27,7 @@ export default function DashboardHomePage() {
   const quickActions = [
     { label: 'Generate curriculum', desc: 'Create a new semester-wise curriculum', icon: LayoutGrid, bg: 'bg-[#EEEDFE]', color: 'text-primary', btn: 'Generate', to: ROUTES.CURRICULUM },
     { label: 'Design course syllabus', desc: 'Build a detailed course with unit plans',  icon: BookOpen,  bg: 'bg-[#E1F5EE]', color: 'text-[#0F6E56]', btn: 'Design',   to: ROUTES.COURSES },
-    { label: 'Map outcomes',          desc: 'Map COs to POs using Bloom's taxonomy',     icon: BarChart2, bg: 'bg-[#FAEEDA]', color: 'text-[#B45309]', btn: 'Map',      to: ROUTES.OUTCOMES },
+    { label: 'Map outcomes',          desc: "Map COs to POs using Bloom's taxonomy",     icon: BarChart2, bg: 'bg-[#FAEEDA]', color: 'text-[#B45309]', btn: 'Map',      to: ROUTES.OUTCOMES },
     { label: 'Export & download',     desc: 'Download reports as PDF or DOCX',           icon: FileDown,  bg: 'bg-[#FAECE7]', color: 'text-[#C2410C]', btn: 'Export',   to: ROUTES.EXPORT },
   ];
 

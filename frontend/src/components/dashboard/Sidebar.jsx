@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, useNavigate, Link } from 'react-router-dom';
-import { GraduationCap, LayoutGrid, BookOpen, BarChart2, FileDown, ChevronRight } from 'lucide-react';
+import { GraduationCap, LayoutGrid, BookOpen, BarChart2, FileDown, ChevronRight, Home } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import ROUTES from '../../constants/routes';
 
@@ -14,6 +14,7 @@ export default function Sidebar() {
   };
 
   const navItems = [
+    { name: 'Dashboard',           icon: Home,       to: ROUTES.DASHBOARD },
     { name: 'Curriculum Builder',  icon: LayoutGrid, to: ROUTES.CURRICULUM },
     { name: 'Course Generation',   icon: BookOpen,   to: ROUTES.COURSES },
     { name: 'Outcome Mapping',     icon: BarChart2,  to: ROUTES.OUTCOMES },
@@ -41,6 +42,7 @@ export default function Sidebar() {
             <NavLink
               key={item.name}
               to={item.to}
+              end={item.to === ROUTES.DASHBOARD}
               className={({ isActive }) =>
                 `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                   isActive 
