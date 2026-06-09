@@ -129,42 +129,44 @@ export default function DashboardHomePage() {
       {/* Recent Activity */}
       <div>
         <h2 className="text-base font-medium text-gray-900 mb-4">Recent Activity</h2>
-        <div className="bg-white rounded-xl border border-gray-100 shadow-sm divide-y divide-gray-50">
-          {loading ? (
-            <div className="p-8 text-center text-gray-400 text-sm">Loading...</div>
-          ) : recentActivities.length === 0 ? (
-            <div className="p-12 text-center">
-              <LayoutGrid className="w-12 h-12 text-gray-200 mx-auto mb-3" />
-              <p className="text-sm font-medium text-gray-500">No activity yet</p>
-              <p className="text-xs text-gray-400 mt-1">Generated programs and courses will appear here.</p>
-            </div>
-          ) : (
-            recentActivities.map(act => {
-              const Icon = act.icon;
-              return (
-                <div key={`${act.type}-${act.id}`} className="flex items-center justify-between px-5 py-4 hover:bg-gray-50/50 transition-colors">
-                  <div className="flex items-center gap-4 min-w-0">
-                    <div className={`w-9 h-9 rounded-full ${act.iconBg} flex items-center justify-center shrink-0`}>
-                      <Icon className={`w-4 h-4 ${act.iconColor}`} />
+        <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
+          <div className="max-h-96 overflow-y-auto divide-y divide-gray-50 custom-scrollbar">
+            {loading ? (
+              <div className="p-8 text-center text-gray-400 text-sm">Loading...</div>
+            ) : activities.length === 0 ? (
+              <div className="p-12 text-center">
+                <LayoutGrid className="w-12 h-12 text-gray-200 mx-auto mb-3" />
+                <p className="text-sm font-medium text-gray-500">No activity yet</p>
+                <p className="text-xs text-gray-400 mt-1">Generated programs and courses will appear here.</p>
+              </div>
+            ) : (
+              activities.map(act => {
+                const Icon = act.icon;
+                return (
+                  <div key={`${act.type}-${act.id}`} className="flex items-center justify-between px-5 py-4 hover:bg-gray-50/50 transition-colors">
+                    <div className="flex items-center gap-4 min-w-0">
+                      <div className={`w-9 h-9 rounded-full ${act.iconBg} flex items-center justify-center shrink-0`}>
+                        <Icon className={`w-4 h-4 ${act.iconColor}`} />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-sm font-medium text-gray-900 truncate max-w-[200px] sm:max-w-xs md:max-w-md">{act.name}</p>
+                        <p className="text-xs text-gray-400 mt-0.5 capitalize">{act.type} · {act.subtext}</p>
+                      </div>
                     </div>
-                    <div className="min-w-0">
-                      <p className="text-sm font-medium text-gray-900 truncate max-w-[200px] sm:max-w-xs md:max-w-md">{act.name}</p>
-                      <p className="text-xs text-gray-400 mt-0.5 capitalize">{act.type} · {act.subtext}</p>
+                    <div className="flex items-center gap-4 shrink-0">
+                      <span className="text-xs text-gray-400">{timeAgo(act.createdAt)}</span>
+                      <button
+                        onClick={() => navigate(act.to, act.state ? { state: act.state } : undefined)}
+                        className="px-3 py-1.5 border border-primary text-primary hover:bg-primary/5 rounded-lg text-xs font-medium transition-colors"
+                      >
+                        View
+                      </button>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4 shrink-0">
-                    <span className="text-xs text-gray-400">{timeAgo(act.createdAt)}</span>
-                    <button
-                      onClick={() => navigate(act.to, act.state ? { state: act.state } : undefined)}
-                      className="px-3 py-1.5 border border-primary text-primary hover:bg-primary/5 rounded-lg text-xs font-medium transition-colors"
-                    >
-                      View
-                    </button>
-                  </div>
-                </div>
-              );
-            })
-          )}
+                );
+              })
+            )}
+          </div>
         </div>
       </div>
     </div>
