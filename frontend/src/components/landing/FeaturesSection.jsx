@@ -56,7 +56,7 @@ export default function FeaturesSection() {
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-3">Export and download</h3>
             <p className="text-gray-600 leading-relaxed">
-              Download your complete curriculum, syllabus, or outcomes report as a formatted PDF or DOCX file ready for submission or sharing.
+              Download your complete curriculum, syllabus, or outcomes report as a formatted PDF file ready for submission or sharing.
             </p>
           </div>
         </div>

@@ -1,8 +1,11 @@
 import React, { useState } from "react";
-import { Clock, BookOpen, CheckSquare, Calendar, Trophy, Star } from "lucide-react";
+import { useNavigate } from 'react-router-dom';
+import { Clock, BookOpen, CheckSquare, Calendar, Trophy, Star, FileDown } from "lucide-react";
+import ROUTES from '../../constants/routes';
 import WeekCard from "./WeekCard";
 
 const ProgramResult = ({ program, onNew }) => {
+  const navigate = useNavigate();
   const { programName, difficultyLevel, numberOfWeeks, generatedSchedule, includesCapstone } = program;
   const { programOverview, targetAudience, prerequisites, learningOutcomes, weeklySchedule, programSummary, capstoneProject } = generatedSchedule;
 
@@ -43,10 +46,11 @@ const ProgramResult = ({ program, onNew }) => {
           </div>
         </div>
         <button 
-          onClick={onNew}
-          className="px-4 py-2 border border-purple-200 text-purple-700 bg-purple-50 hover:bg-purple-100 rounded-lg text-sm font-medium transition-colors whitespace-nowrap"
+          onClick={() => navigate(ROUTES.EXPORT, { state: { selectedSource: 'schedule_' + program._id } })}
+          className="flex items-center gap-1.5 px-4 py-2 border border-purple-200 text-purple-700 bg-purple-50 hover:bg-purple-100 rounded-lg text-sm font-medium transition-colors whitespace-nowrap"
         >
-          New Program
+          <FileDown className="w-4 h-4" />
+          Export PDF
         </button>
       </div>
 

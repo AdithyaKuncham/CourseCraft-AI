@@ -9,7 +9,7 @@ import CurriculumPage from './pages/CurriculumPage';
 import CoursePage from './pages/CoursePage';
 import { useAuth } from './hooks/useAuth';
 import ROUTES from './constants/routes';
-import { Loader2, BarChart2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 
 import OutcomePage from './pages/OutcomePage';
 import ProgramPage from './pages/ProgramPage';

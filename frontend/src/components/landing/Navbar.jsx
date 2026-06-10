@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { GraduationCap } from 'lucide-react';
+
 import ROUTES from '../../constants/routes';
 import { DEMO_VIDEO_URL } from '../../constants/config';
 import { useAuth } from '../../hooks/useAuth';

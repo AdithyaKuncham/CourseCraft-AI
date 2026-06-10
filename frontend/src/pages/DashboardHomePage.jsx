@@ -40,7 +40,7 @@ export default function DashboardHomePage() {
     { label: 'Course Generation', desc: 'Build a detailed course with unit plans',  icon: BookOpen,  bg: 'bg-[#E1F5EE]', color: 'text-[#0F6E56]', btn: 'Open',   to: ROUTES.COURSES },
     { label: 'Outcome Mapping',          desc: "Map COs to POs using Bloom's taxonomy",     icon: BarChart2, bg: 'bg-[#FAEEDA]', color: 'text-[#B45309]', btn: 'Open',      to: ROUTES.OUTCOMES },
     { label: 'Program Generator', desc: 'Build a week-wise schedule for any workshop or bootcamp', icon: Calendar, bg: 'bg-[#EEEDFE]', color: 'text-purple-600', btn: 'Generate', to: ROUTES.PROGRAMS },
-    { label: 'Export And Download',     desc: 'Download reports as PDF or DOCX',           icon: FileDown,  bg: 'bg-[#FAECE7]', color: 'text-[#C2410C]', btn: 'Open',   to: ROUTES.EXPORT },
+    { label: 'Export And Download',     desc: 'Download reports as PDF',           icon: FileDown,  bg: 'bg-[#FAECE7]', color: 'text-[#C2410C]', btn: 'Open',   to: ROUTES.EXPORT },
   ];
 
   const activities = [

@@ -22,7 +22,7 @@ export default function StatsBar() {
           </div>
           
           <div className="py-8 px-4 text-center">
-            <div className="text-3xl font-bold text-primary mb-1">PDF/DOCX</div>
+            <div className="text-3xl font-bold text-primary mb-1">PDF</div>
             <div className="text-sm font-medium text-gray-500">One-click export</div>
           </div>
 

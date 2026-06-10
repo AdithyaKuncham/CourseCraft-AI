@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useOutcomes } from '../hooks/useOutcomes';
 import { useCourses } from '../hooks/useCourses';
 import { usePrograms } from '../hooks/usePrograms';
@@ -15,7 +16,8 @@ export default function ExportPage() {
   const [mappings, setMappings] = useState([]);
   
   // sourceSelection will be string like "mapping_ID", "course_ID", "program_ID"
-  const [selectedSource, setSelectedSource] = useState("");
+  const location = useLocation();
+  const [selectedSource, setSelectedSource] = useState(location.state?.selectedSource || "");
   const [curriculumData, setCurriculumData] = useState(null);
   const [fetchingData, setFetchingData] = useState(false);
 

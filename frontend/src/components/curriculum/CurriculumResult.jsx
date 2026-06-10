@@ -1,8 +1,11 @@
 import React from 'react';
 import SemesterAccordion from './SemesterAccordion';
-import { Sparkles, AlertCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { FileDown, Sparkles, AlertCircle } from 'lucide-react';
+import ROUTES from '../../constants/routes';
 
 export default function CurriculumResult({ program, isGenerating, error, onNew }) {
+  const navigate = useNavigate();
   if (error) {
     return (
       <div className="flex flex-col items-center justify-center p-8 bg-red-50 rounded-xl border border-red-100">
@@ -59,10 +62,11 @@ export default function CurriculumResult({ program, isGenerating, error, onNew }
           </p>
         </div>
         <button 
-          onClick={onNew}
-          className="shrink-0 px-3 py-1.5 text-sm font-medium text-primary border border-primary rounded-lg hover:bg-primary-light transition-colors"
+          onClick={() => navigate(ROUTES.EXPORT, { state: { selectedSource: 'program_' + program._id } })}
+          className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-primary border border-primary rounded-lg hover:bg-primary-light transition-colors"
         >
-          New program
+          <FileDown className="w-4 h-4" />
+          Export PDF
         </button>
       </div>
 

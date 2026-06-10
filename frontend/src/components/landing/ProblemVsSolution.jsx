@@ -15,7 +15,7 @@ export default function ProblemVsSolution() {
     "Bloom's levels auto-assigned with distribution view",
     "CO-PO matrix computed and visualised instantly",
     "Credits balanced automatically across semesters",
-    "Accreditation-ready PDF/DOCX export in one click"
+    "Accreditation-ready PDF export in one click"
   ];
 
   return (

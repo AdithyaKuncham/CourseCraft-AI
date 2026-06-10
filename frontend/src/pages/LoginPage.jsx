@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { GraduationCap, LayoutGrid, BookOpen, Calendar, BarChart2, Layers, FileDown } from 'lucide-react';
+import { LayoutGrid, BookOpen, Calendar, BarChart2, Layers, FileDown } from 'lucide-react';
 import LoginForm from '../components/auth/LoginForm';
 import SignupForm from '../components/auth/SignupForm';
 import { useAuth } from '../hooks/useAuth';
@@ -24,7 +24,7 @@ export default function LoginPage() {
     { icon: Calendar,   text: "Generate week-wise schedules with capstone support" },
     { icon: BarChart2,  text: "Map course outcomes using Bloom's taxonomy" },
     { icon: Layers,     text: "Manage all generated content in one place" },
-    { icon: FileDown,   text: "Export reports as PDF or DOCX" },
+    { icon: FileDown,   text: "Export reports as PDF" },
   ];
 
   return (

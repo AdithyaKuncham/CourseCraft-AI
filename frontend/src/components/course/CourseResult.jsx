@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { Plus } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { FileDown } from 'lucide-react';
+import ROUTES from '../../constants/routes';
 import LabSyllabusTab from './LabSyllabusTab';
 
 const TYPE_LABELS = { core: 'Core', elective: 'Elective', open_elective: 'Open Elective' };
 const DIFF_LABELS = { beginner: 'Beginner', intermediate: 'Intermediate', advanced: 'Advanced' };
 
-export default function CourseResult({ course, onNew }) {
+export default function CourseResult({ course }) {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('course');
   const syllabus = course.generatedSyllabus || {};
   const units    = syllabus.units || [];
@@ -24,11 +27,11 @@ export default function CourseResult({ course, onNew }) {
           </p>
         </div>
         <button
-          onClick={onNew}
+          onClick={() => navigate(ROUTES.EXPORT, { state: { selectedSource: 'course_' + course._id } })}
           className="flex items-center gap-1.5 text-xs font-medium text-primary border border-primary/30 bg-primary/5 hover:bg-primary/10 px-3 py-1.5 rounded-lg transition-colors"
         >
-          <Plus className="w-3.5 h-3.5" />
-          New course
+          <FileDown className="w-3.5 h-3.5" />
+          Export PDF
         </button>
       </div>
 

@@ -20,7 +20,7 @@ export default function CourseGeneratorForm({ onGenerate, isGenerating, error })
   const [form, setForm] = useState({
     courseName: '', courseCode: '', credits: 3,
     difficultyLevel: 'intermediate', numberOfUnits: 5,
-    courseType: 'core', includesLab: false, numberOfExperiments: 0,
+    courseType: 'core', includesLab: false, numberOfExperiments: '',
   });
 
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
@@ -179,8 +179,8 @@ export default function CourseGeneratorForm({ onGenerate, isGenerating, error })
 
           {form.includesLab && (
             <div>
-              <label className={labelCls}>Number of Lab Experiments (1–20)</label>
-              <input type="number" min={1} max={20} className={inputCls} value={form.numberOfExperiments} onChange={e => set('numberOfExperiments', +e.target.value)} />
+              <label className={labelCls}>Number of Lab Experiments (1–20) *</label>
+              <input type="number" min={1} max={20} className={inputCls} value={form.numberOfExperiments} onChange={e => set('numberOfExperiments', e.target.value === '' ? '' : +e.target.value)} required />
             </div>
           )}
         </div>

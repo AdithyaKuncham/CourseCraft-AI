@@ -6,15 +6,18 @@ import { normalizeBloomsLabel } from "./bloomsUtils";
 const generateProgramPDF = (doc, data) => {
   doc.setFontSize(22);
   doc.setFont("helvetica", "bold");
-  doc.text(data.programName || "Program Curriculum", 14, 22);
+  const titleText = data.programName || "Program Curriculum";
+  const splitTitle = doc.splitTextToSize(titleText, 180);
+  doc.text(splitTitle, 14, 22);
 
+  const subtitleY = 22 + (splitTitle.length - 1) * 10 + 8;
   doc.setFontSize(12);
   doc.setFont("helvetica", "normal");
   doc.setTextColor(100);
-  doc.text(`${data.degreeType} in ${data.specialization} | ${data.department}`, 14, 30);
+  doc.text(`${data.degreeType} in ${data.specialization} | ${data.department}`, 14, subtitleY);
   doc.setTextColor(0);
 
-  let currentY = 40;
+  let currentY = subtitleY + 10;
 
   // Summary
   if (data.generatedCurriculum?.programSummary) {
@@ -81,17 +84,20 @@ const generateProgramPDF = (doc, data) => {
 const generateCoursePDF = (doc, data) => {
   doc.setFontSize(22);
   doc.setFont("helvetica", "bold");
-  doc.text(data.courseName || "Course Syllabus", 14, 22);
+  const titleText = data.courseName || "Course Syllabus";
+  const splitTitle = doc.splitTextToSize(titleText, 180);
+  doc.text(splitTitle, 14, 22);
 
+  const subtitleY = 22 + (splitTitle.length - 1) * 10 + 8;
   doc.setFontSize(12);
   doc.setFont("helvetica", "normal");
   doc.setTextColor(100);
   const typeLabel = data.courseType ? data.courseType.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase()) : "";
   const diffLabel = data.difficultyLevel ? data.difficultyLevel.replace(/\b\w/g, l => l.toUpperCase()) : "";
-  doc.text(`${data.courseCode} | ${data.credits} Credits | ${typeLabel} | ${diffLabel}`, 14, 30);
+  doc.text(`${data.courseCode} | ${data.credits} Credits | ${typeLabel} | ${diffLabel}`, 14, subtitleY);
   doc.setTextColor(0);
 
-  let currentY = 42;
+  let currentY = subtitleY + 12;
   const syl = data.generatedSyllabus || {};
 
   if (syl.courseDescription) {
@@ -196,15 +202,18 @@ const generateCoursePDF = (doc, data) => {
 const generateMappingPDF = (doc, data) => {
   doc.setFontSize(22);
   doc.setFont("helvetica", "bold");
-  doc.text(data.courseName || "Course Outcomes & Mapping", 14, 22);
+  const titleText = data.courseName || "Course Outcomes & Mapping";
+  const splitTitle = doc.splitTextToSize(titleText, 180);
+  doc.text(splitTitle, 14, 22);
 
+  const subtitleY = 22 + (splitTitle.length - 1) * 10 + 8;
   doc.setFontSize(12);
   doc.setFont("helvetica", "normal");
   doc.setTextColor(100);
-  doc.text(`Course Code: ${data.courseCode || "-"} | Source: ${data.sourceType?.replace('_', ' ') || "-"}`, 14, 30);
+  doc.text(`Course Code: ${data.courseCode || "-"} | Source: ${data.sourceType?.replace('_', ' ') || "-"}`, 14, subtitleY);
   doc.setTextColor(0);
 
-  let currentY = 40;
+  let currentY = subtitleY + 10;
   
   const courseOutcomes = data.generatedOutcomes?.courseOutcomes || [];
   const matrix = data.generatedOutcomes?.copoMatrix || [];
@@ -293,15 +302,18 @@ const generateMappingPDF = (doc, data) => {
 const generateProgramSchedulePDF = (doc, data) => {
   doc.setFontSize(22);
   doc.setFont("helvetica", "bold");
-  doc.text(data.programName || "Program Schedule", 14, 22);
+  const titleText = data.programName || "Program Schedule";
+  const splitTitle = doc.splitTextToSize(titleText, 180);
+  doc.text(splitTitle, 14, 22);
 
+  const subtitleY = 22 + (splitTitle.length - 1) * 10 + 8;
   doc.setFontSize(12);
   doc.setFont("helvetica", "normal");
   doc.setTextColor(100);
-  doc.text(`${data.difficultyLevel ? data.difficultyLevel.charAt(0).toUpperCase() + data.difficultyLevel.slice(1) : "-"} | ${data.numberOfWeeks} Weeks${data.includesCapstone ? " | Capstone Included" : ""}`, 14, 30);
+  doc.text(`${data.difficultyLevel ? data.difficultyLevel.charAt(0).toUpperCase() + data.difficultyLevel.slice(1) : "-"} | ${data.numberOfWeeks} Weeks${data.includesCapstone ? " | Capstone Included" : ""}`, 14, subtitleY);
   doc.setTextColor(0);
 
-  let currentY = 42;
+  let currentY = subtitleY + 12;
   
   const schedule = data.generatedSchedule || {};
   const summary = schedule.programSummary || {};
@@ -490,6 +502,20 @@ export const generateCurriculumPDF = (curriculumData, fileName) => {
       generateMappingPDF(doc, data);
     } else if (docType === "generated_program") {
       generateProgramSchedulePDF(doc, data);
+    }
+
+    // Add Footer to each page
+    const pageCount = doc.internal.getNumberOfPages();
+    for (let i = 1; i <= pageCount; i++) {
+      doc.setPage(i);
+      doc.setFontSize(10);
+      doc.setFont("helvetica", "italic");
+      doc.setTextColor(150);
+      const footerText = "created using CourseCraft-AI";
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const pageHeight = doc.internal.pageSize.getHeight();
+      const textWidth = doc.getTextWidth(footerText);
+      doc.text(footerText, pageWidth - textWidth - 14, pageHeight - 10);
     }
 
     // Trigger browser download

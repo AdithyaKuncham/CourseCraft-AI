@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, useNavigate, Link } from 'react-router-dom';
-import { GraduationCap, LayoutGrid, BookOpen, BarChart2, FileDown, ChevronRight, Home, X, Library, Calendar } from 'lucide-react';
+import { LayoutGrid, BookOpen, BarChart2, FileDown, ChevronRight, Home, X, Library, Calendar } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import ROUTES from '../../constants/routes';
 
