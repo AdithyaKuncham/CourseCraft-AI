@@ -1,7 +1,7 @@
 import React from "react";
 import { CheckCircle2, ChevronRight, Activity } from "lucide-react";
 
-export default function CourseOutcomeResult({ outcomes, onProceedToMatrix, loading }) {
+export default function CourseOutcomeResult({ outcomes, onProceedToMatrix, loading, includesMatrix = true }) {
   
   if (loading) {
     return (
@@ -48,7 +48,11 @@ export default function CourseOutcomeResult({ outcomes, onProceedToMatrix, loadi
           onClick={onProceedToMatrix}
           className="flex items-center gap-2 px-6 py-2 bg-primary text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors"
         >
-          Generate CO-PO Matrix <ChevronRight className="w-4 h-4" />
+          {includesMatrix ? (
+            <>Generate CO-PO Matrix <ChevronRight className="w-4 h-4" /></>
+          ) : (
+            <>Save Course Outcomes <CheckCircle2 className="w-4 h-4" /></>
+          )}
         </button>
       </div>
     </div>

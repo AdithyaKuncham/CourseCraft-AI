@@ -33,6 +33,7 @@ export default function OutcomeInputForm() {
   const [pos, setPos] = useState([]);
   const [cos, setCos] = useState([]);
   const [matrix, setMatrix] = useState([]);
+  const [includesMatrix, setIncludesMatrix] = useState(false);
 
   // Selections
   const [selectedProgramId, setSelectedProgramId] = useState("");
@@ -109,7 +110,7 @@ export default function OutcomeInputForm() {
       const generatedCos = await generateCOs(courseDetails.syllabusText);
       setCos(generatedCos);
     } catch (err) {
-      setStep(4); // Go back if failed
+      setStep(includesMatrix ? 4 : 3); // Go back if failed
     }
   };
 
@@ -129,6 +130,7 @@ export default function OutcomeInputForm() {
         sourceType,
         ...courseDetails,
         programOutcomes: pos,
+        includesMatrix,
         generatedOutcomes: {
           courseOutcomes: cos,
           copoMatrix: matrix,
@@ -185,19 +187,52 @@ export default function OutcomeInputForm() {
             onChange={(text) => setCourseDetails({...courseDetails, syllabusText: text})} 
           />
 
-          <div className="flex justify-end mt-6">
-            <button
-              onClick={() => {
-                if (!courseDetails.courseName.trim() || !courseDetails.courseCode.trim() || !courseDetails.syllabusText.trim()) {
-                  alert("Please provide the Course Name, Course Code, and Syllabus Text.");
-                  return;
+          <div className="flex items-start gap-3 p-4 rounded-xl border border-gray-200 bg-gray-50 mt-4">
+            <input
+              type="checkbox"
+              id="includes-matrix"
+              checked={includesMatrix}
+              onChange={(e) => {
+                setIncludesMatrix(e.target.checked);
+                if (!e.target.checked) {
+                  setPos([]);
                 }
-                setStep(4);
               }}
-              className="px-6 py-2 bg-primary text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors"
-            >
-              Proceed to Program Outcomes
-            </button>
+              className="mt-0.5 w-4 h-4 accent-purple-600 cursor-pointer flex-shrink-0"
+            />
+            <label htmlFor="includes-matrix" className="cursor-pointer">
+              <p className="text-sm font-medium text-gray-800">Generate CO-PO Correlation Matrix</p>
+              <p className="text-xs text-gray-500 mt-0.5">
+                Check this to also map your course outcomes against program outcomes and generate a correlation matrix.
+                You will need to provide your program outcomes in the next step.
+              </p>
+            </label>
+          </div>
+
+          <div className="flex justify-end mt-6">
+            <div className="flex flex-col items-end">
+              <button
+                onClick={() => {
+                  if (!courseDetails.courseName.trim() || !courseDetails.courseCode.trim() || !courseDetails.syllabusText.trim()) {
+                    alert("Please provide the Course Name, Course Code, and Syllabus Text.");
+                    return;
+                  }
+                  if (!includesMatrix) {
+                    handlePOsProvided([]); // Jump directly to CO generation
+                  } else {
+                    setStep(4);
+                  }
+                }}
+                className="px-6 py-2 bg-primary text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors"
+              >
+                {includesMatrix ? "Proceed to Program Outcomes" : "Generate Course Outcomes"}
+              </button>
+              <p className="text-xs text-gray-400 mt-2">
+                {includesMatrix
+                  ? "⚡ Powered by Groq AI · Usually takes 15–25 seconds"
+                  : "⚡ Powered by Groq AI · Usually takes 10–15 seconds"}
+              </p>
+            </div>
           </div>
         </div>
       )}
@@ -215,8 +250,9 @@ export default function OutcomeInputForm() {
         <div className="space-y-6 animate-fade-in">
           <CourseOutcomeResult 
             outcomes={cos} 
-            onProceedToMatrix={handleProceedToMatrix} 
+            onProceedToMatrix={includesMatrix ? handleProceedToMatrix : handleSave} 
             loading={loading} 
+            includesMatrix={includesMatrix}
           />
         </div>
       )}

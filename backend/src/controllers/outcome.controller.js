@@ -41,7 +41,10 @@ export const saveMapping = async (req, res, next) => {
       syllabusText,
       programOutcomes,
       generatedOutcomes,
+      includesMatrix,
     } = req.body;
+
+    const shouldIncludeMatrix = includesMatrix === true || includesMatrix === "true";
 
     const mapping = await OutcomeMapping.create({
       userId: req.user.userId,
@@ -51,8 +54,18 @@ export const saveMapping = async (req, res, next) => {
       courseName,
       courseCode,
       syllabusText,
-      programOutcomes,
-      generatedOutcomes,
+      includesMatrix: shouldIncludeMatrix,
+      programOutcomes: shouldIncludeMatrix ? programOutcomes : [],
+      generatedOutcomes: {
+        courseOutcomes: generatedOutcomes.courseOutcomes,
+        copoMatrix: shouldIncludeMatrix ? generatedOutcomes.copoMatrix : [],
+        matrixSummary: shouldIncludeMatrix ? generatedOutcomes.matrixSummary : {
+          averageCorrelation: null,
+          strongMappings: null,
+          moderateMappings: null,
+          weakMappings: null,
+        }
+      },
     });
 
     res.status(201).json({

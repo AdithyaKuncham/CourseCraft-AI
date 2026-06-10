@@ -54,13 +54,15 @@ export default function OutcomePage() {
           onProceedToMatrix={() => {}} // Not needed in view mode
         />
 
-        <COPOMatrixResult 
-          matrix={matrix} 
-          posCount={posCount} 
-          loading={false}
-          onSave={() => {}} // Hide or disable save in view mode
-          saving={false}
-        />
+        {viewingMapping.includesMatrix && (
+          <COPOMatrixResult 
+            matrix={matrix} 
+            posCount={posCount} 
+            loading={false}
+            onSave={() => {}} // Hide or disable save in view mode
+            saving={false}
+          />
+        )}
         
         {/* CSS to hide "Generate CO-PO matrix" button and "Save mapping" button in view mode */}
         <style>

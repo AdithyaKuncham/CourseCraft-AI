@@ -36,12 +36,20 @@ const outcomeMappingSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    programOutcomes: [
-      {
-        poNumber: { type: Number, required: true },
-        statement: { type: String, required: true },
-      },
-    ],
+    includesMatrix: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    programOutcomes: {
+      type: [
+        {
+          poNumber: { type: Number, required: true },
+          statement: { type: String, required: true },
+        },
+      ],
+      default: [],
+    },
     generatedOutcomes: {
       courseOutcomes: [
         {
@@ -50,17 +58,26 @@ const outcomeMappingSchema = new mongoose.Schema(
           bloomsLevel: { type: String, required: true },
         },
       ],
-      copoMatrix: [
-        {
-          coNumber: { type: Number, required: true },
-          poMappings: [
-            {
-              poNumber: { type: Number, required: true },
-              correlationLevel: { type: Number, enum: [0, 1, 2, 3], required: true },
-            },
-          ],
-        },
-      ],
+      copoMatrix: {
+        type: [
+          {
+            coNumber: { type: Number, required: true },
+            poMappings: [
+              {
+                poNumber: { type: Number, required: true },
+                correlationLevel: { type: Number, enum: [0, 1, 2, 3], required: true },
+              },
+            ],
+          },
+        ],
+        default: [],
+      },
+      matrixSummary: {
+        averageCorrelation: { type: Number, default: null },
+        strongMappings: { type: Number, default: null },
+        moderateMappings: { type: Number, default: null },
+        weakMappings: { type: Number, default: null },
+      },
     },
   },
   {

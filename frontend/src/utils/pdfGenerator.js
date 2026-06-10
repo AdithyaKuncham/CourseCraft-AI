@@ -23,9 +23,33 @@ const generateProgramPDF = (doc, data) => {
     currentY += 10;
   }
 
+  // Program Outcomes
+  if (data.generatedCurriculum?.programOutcomes?.length > 0) {
+    if (currentY > 250) { doc.addPage(); currentY = 20; }
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    doc.text("Program Outcomes (POs)", 14, currentY);
+    currentY += 8;
+
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+    data.generatedCurriculum.programOutcomes.forEach(po => {
+      const text = `PO${po.poNumber}: ${po.statement}`;
+      const splitText = doc.splitTextToSize(text, 180);
+      if (currentY + (splitText.length * 5) > 280) {
+        doc.addPage();
+        currentY = 20;
+      }
+      doc.text(splitText, 14, currentY);
+      currentY += (splitText.length * 5) + 3;
+    });
+    currentY += 5; // Add a little spacing before Semesters
+  }
+
   // Semesters
   if (data.generatedCurriculum?.semesters) {
     data.generatedCurriculum.semesters.forEach((sem) => {
+      if (currentY > 260) { doc.addPage(); currentY = 20; }
       doc.setFontSize(14);
       doc.setFont("helvetica", "bold");
       doc.text(`Semester ${sem.semesterNumber}`, 14, currentY + 5);
@@ -48,28 +72,6 @@ const generateProgramPDF = (doc, data) => {
         didDrawPage: (d) => { currentY = d.cursor.y; }
       });
       currentY = doc.lastAutoTable.finalY + 10;
-    });
-  }
-
-  // Program Outcomes
-  if (data.generatedCurriculum?.programOutcomes?.length > 0) {
-    if (currentY > 250) { doc.addPage(); currentY = 20; }
-    doc.setFontSize(14);
-    doc.setFont("helvetica", "bold");
-    doc.text("Program Outcomes (POs)", 14, currentY);
-    currentY += 8;
-
-    doc.setFontSize(10);
-    doc.setFont("helvetica", "normal");
-    data.generatedCurriculum.programOutcomes.forEach(po => {
-      const text = `PO${po.poNumber}: ${po.statement}`;
-      const splitText = doc.splitTextToSize(text, 180);
-      if (currentY + (splitText.length * 5) > 280) {
-        doc.addPage();
-        currentY = 20;
-      }
-      doc.text(splitText, 14, currentY);
-      currentY += (splitText.length * 5) + 3;
     });
   }
 };

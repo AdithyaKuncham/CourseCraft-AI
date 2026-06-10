@@ -35,6 +35,7 @@ export function buildSemesterPlan(programData) {
     const isEarly  = semNum <= 2;
     const isFinal  = semNum === durationSemesters;
     const isMiddle = !isEarly && !isFinal;
+    const isFirstHalf = semNum <= Math.ceil(durationSemesters / 2);
 
     // Decide elective slot counts
     const electiveSlots     = isEarly ? 0 : isFinal ? 2 : 1;
@@ -72,7 +73,8 @@ export function buildSemesterPlan(programData) {
       slots,
       progressionStage : isEarly  ? "foundational"
                        : isMiddle ? "intermediate-to-advanced"
-                       : "capstone"
+                       : "capstone",
+      labBudget        : isFirstHalf ? 3 : 2
     };
   });
 

@@ -82,16 +82,6 @@ export default function CurriculumResult({ program, isGenerating, error, onNew }
         </div>
       </div>
 
-      {/* Semesters */}
-      <div>
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Semester Plan</h3>
-        <div className="space-y-3">
-          {semesters.map(sem => (
-            <SemesterAccordion key={sem.semesterNumber} semester={sem} />
-          ))}
-        </div>
-      </div>
-
       {/* Program Outcomes */}
       <div>
         <h3 className="text-lg font-medium text-gray-900 mb-4">Program Outcomes (POs)</h3>
@@ -108,6 +98,16 @@ export default function CurriculumResult({ program, isGenerating, error, onNew }
                 {po.statement}
               </p>
             </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Semesters */}
+      <div>
+        <h3 className="text-lg font-medium text-gray-900 mb-4">Semester Plan</h3>
+        <div className="space-y-3">
+          {semesters.map(sem => (
+            <SemesterAccordion key={sem.semesterNumber} semester={sem} />
           ))}
         </div>
       </div>

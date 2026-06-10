@@ -69,7 +69,7 @@ export default function DashboardHomePage() {
     ...(outcomes || []).map(o => ({
       id: o._id,
       name: o.courseName,
-      subtext: `${o.courseCode} · Outcome Mapping`,
+      subtext: `${o.courseCode} · ` + (o.includesMatrix ? "Outcomes + CO-PO Matrix" : "Course Outcomes Only"),
       createdAt: o.createdAt,
       type: 'outcome',
       icon: BarChart2,
