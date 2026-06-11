@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CourseCraft AI — Technical Documentation</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --purple: #534AB7;
+    --purple-light: #EEEDFE;
+    --purple-mid: #AFA9EC;
+    --green: #0F6E56;
+    --green-light: #E1F5EE;
+    --amber: #EF9F27;
+    --amber-light: #FAEEDA;
+    --coral: #993C1D;
+    --coral-light: #FAECE7;
+    --gray-50: #F9FAFB;
+    --gray-100: #F3F4F6;
+    --gray-200: #E5E7EB;
+    --gray-400: #9CA3AF;
+    --gray-600: #4B5563;
+    --gray-800: #1F2937;
+    --gray-900: #111827;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #FAFAFA;
+    color: var(--gray-800);
+    line-height: 1.6;
+    font-size: 14px;
+  }
+
+  a { color: var(--purple); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    border-bottom: 1px solid var(--gray-200);
+    z-index: 100;
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    height: 52px;
+    gap: 32px;
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--gray-900);
+    white-space: nowrap;
+  }
+  .nav-logo-icon {
+    width: 28px; height: 28px;
+    background: var(--purple);
+    border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .nav-logo-icon svg { width: 16px; height: 16px; }
+  nav ul {
+    display: flex; gap: 0; list-style: none;
+    overflow-x: auto; flex: 1;
+  }
+  nav ul li a {
+    display: block;
+    padding: 0 14px;
+    height: 52px;
+    line-height: 52px;
+    font-size: 13px;
+    color: var(--gray-600);
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  nav ul li a:hover { color: var(--purple); text-decoration: none; border-bottom-color: var(--purple-mid); }
+  .nav-badge {
+    background: var(--purple-light);
+    color: var(--purple);
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  /* ── LAYOUT ── */
+  .page { max-width: 1000px; margin: 0 auto; padding: 48px 24px 80px; }
+
+  /* ── HERO ── */
+  .hero {
+    text-align: center;
+    padding: 56px 24px 48px;
+    border-bottom: 1px solid var(--gray-200);
+    margin-bottom: 56px;
+  }
+  .hero-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--purple-light);
+    color: var(--purple);
+    font-size: 12px; font-weight: 500;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-size: 36px; font-weight: 600;
+    color: var(--gray-900);
+    line-height: 1.2;
+    margin-bottom: 14px;
+    letter-spacing: -0.5px;
+  }
+  .hero h1 span { color: var(--purple); }
+  .hero p {
+    font-size: 15px; color: var(--gray-600);
+    max-width: 560px; margin: 0 auto 28px;
+    line-height: 1.7;
+  }
+  .hero-meta {
+    display: flex; align-items: center; justify-content: center;
+    gap: 24px; flex-wrap: wrap;
+  }
+  .hero-meta-item {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 13px; color: var(--gray-600);
+  }
+  .hero-meta-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+  }
+
+  /* ── SECTION HEADINGS ── */
+  .section-label {
+    font-size: 11px; font-weight: 600; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--purple);
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-size: 22px; font-weight: 600; color: var(--gray-900);
+    margin-bottom: 6px; letter-spacing: -0.3px;
+  }
+  .section-sub {
+    font-size: 14px; color: var(--gray-600);
+    margin-bottom: 32px; max-width: 600px; line-height: 1.6;
+  }
+  section { margin-bottom: 64px; }
+
+  /* ── FEATURE CARDS ── */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .feat-card {
+    background: #fff;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius);
+    padding: 20px;
+    transition: border-color 0.15s;
+  }
+  .feat-card:hover { border-color: var(--purple-mid); }
+  .feat-card-header {
+    display: flex; align-items: flex-start;
+    gap: 12px; margin-bottom: 12px;
+  }
+  .feat-icon {
+    width: 36px; height: 36px; border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .feat-icon svg { width: 18px; height: 18px; }
+  .feat-card h3 { font-size: 14px; font-weight: 600; color: var(--gray-900); margin-bottom: 4px; }
+  .feat-card p { font-size: 13px; color: var(--gray-600); line-height: 1.5; margin-bottom: 12px; }
+  .feat-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag {
+    font-size: 11px; padding: 2px 8px;
+    border-radius: 20px; font-weight: 500;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .tag-purple { background: var(--purple-light); color: var(--purple); }
+  .tag-green  { background: var(--green-light);  color: var(--green); }
+  .tag-amber  { background: var(--amber-light);  color: #854F0B; }
+  .tag-coral  { background: var(--coral-light);  color: var(--coral); }
+  .tag-gray   { background: var(--gray-100);     color: var(--gray-600); }
+
+  /* ── ARCHITECTURE ── */
+  .arch-diagram {
+    background: #fff;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius);
+    padding: 32px 24px;
+    margin-bottom: 24px;
+  }
+  .arch-row {
+    display: flex; gap: 12px; align-items: stretch;
+    margin-bottom: 12px;
+  }
+  .arch-label {
+    width: 90px; flex-shrink: 0;
+    font-size: 11px; font-weight: 600; color: var(--gray-400);
+    letter-spacing: .06em; text-transform: uppercase;
+    display: flex; align-items: center;
+    padding-top: 2px;
+  }
+  .arch-boxes { display: flex; gap: 8px; flex: 1; flex-wrap: wrap; }
+  .arch-box {
+    flex: 1; min-width: 100px;
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    font-size: 12px; font-weight: 500;
+    text-align: center;
+    border: 1px solid;
+  }
+  .arch-box small {
+    display: block; font-size: 10px;
+    font-weight: 400; margin-top: 2px; opacity: 0.75;
+  }
+  .ab-purple { background: var(--purple-light); color: #3C3489; border-color: var(--purple-mid); }
+  .ab-green  { background: var(--green-light);  color: #085041; border-color: #5DCAA5; }
+  .ab-amber  { background: var(--amber-light);  color: #633806; border-color: #EF9F27; }
+  .ab-gray   { background: var(--gray-100);     color: var(--gray-600); border-color: var(--gray-200); }
+  .ab-coral  { background: var(--coral-light);  color: #712B13; border-color: #F0997B; }
+  .arch-arrow {
+    display: flex; justify-content: center; align-items: center;
+    margin: 4px 0;
+    color: var(--gray-400); font-size: 13px;
+    gap: 8px;
+  }
+  .arch-arrow::before, .arch-arrow::after {
+    content: ''; flex: 1; height: 1px;
+    background: var(--gray-200);
+  }
+
+  /* ── PACKAGES TABLE ── */
+  .pkg-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .pkg-section {
+    background: #fff; border: 1px solid var(--gray-200);
+    border-radius: var(--radius); overflow: hidden;
+  }
+  .pkg-section-header {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--gray-200);
+    font-size: 12px; font-weight: 600;
+    color: var(--gray-600);
+    display: flex; align-items: center; gap-8px;
+    text-transform: uppercase; letter-spacing: .05em;
+  }
+  .pkg-row {
+    display: flex; align-items: flex-start;
+    gap: 12px; padding: 10px 16px;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .pkg-row:last-child { border-bottom: none; }
+  .pkg-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; font-weight: 500;
+    color: var(--purple);
+    min-width: 130px; flex-shrink: 0;
+  }
+  .pkg-desc { font-size: 12px; color: var(--gray-600); line-height: 1.4; }
+
+  /* ── IMPLEMENTATION STEPS ── */
+  .impl-list { display: flex; flex-direction: column; gap: 12px; }
+  .impl-item {
+    background: #fff;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    display: flex; gap: 16px; align-items: flex-start;
+  }
+  .impl-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--purple-light); color: var(--purple);
+    font-size: 12px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+  }
+  .impl-content h4 { font-size: 14px; font-weight: 600; color: var(--gray-900); margin-bottom: 4px; }
+  .impl-content p  { font-size: 13px; color: var(--gray-600); line-height: 1.5; margin-bottom: 8px; }
+  .impl-code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--gray-600);
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: 6px;
+    padding: 8px 12px;
+    line-height: 1.6;
+    white-space: pre;
+    overflow-x: auto;
+  }
+
+  /* ── FLOW CARDS ── */
+  .flow-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .flow-card {
+    background: #fff; border: 1px solid var(--gray-200);
+    border-radius: var(--radius); padding: 16px;
+  }
+  .flow-card-num {
+    font-size: 11px; font-weight: 600; color: var(--gray-400);
+    letter-spacing: .06em; margin-bottom: 8px;
+  }
+  .flow-card h4 { font-size: 13px; font-weight: 600; color: var(--gray-900); margin-bottom: 4px; }
+  .flow-card p  { font-size: 12px; color: var(--gray-600); line-height: 1.5; }
+  .flow-arrow {
+    text-align: center; font-size: 18px; color: var(--gray-400);
+    margin: 4px 0; display: none;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--gray-200);
+    padding: 24px;
+    text-align: center;
+    font-size: 12px; color: var(--gray-400);
+    background: #fff;
+  }
+
+  @media (max-width: 640px) {
+    .pkg-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 26px; }
+    nav ul { gap: 0; }
+    nav ul li a { padding: 0 10px; font-size: 12px; }
+    .arch-label { width: 60px; font-size: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-icon">
+      <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 2L3 6v4c0 3.5 2.8 6.8 7 8 4.2-1.2 7-4.5 7-8V6l-7-4z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+        <circle cx="10" cy="10" r="1.5" fill="#EF9F27"/>
+        <path d="M10 8v-1M10 13v-1M7.5 10h-1M13.5 10h-1" stroke="#EF9F27" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    CourseCraft AI
+  </div>
+  <ul>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#architecture">Architecture</a></li>
+    <li><a href="#packages">Packages</a></li>
+    <li><a href="#implementation">Implementation</a></li>
+    <li><a href="#ai-pipeline">AI Pipeline</a></li>
+  </ul>
+  <span class="nav-badge">v1.0 · MERN Stack</span>
+</nav>
+
+<div class="page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-pill">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1l1.2 2.4L10 4.2l-2 1.9.5 2.9L6 7.6 3.5 9l.5-2.9L2 4.2l2.8-.8L6 1z" fill="#534AB7"/></svg>
+      Technical Documentation
+    </div>
+    <h1>CourseCraft <span>AI</span><br>Platform Overview</h1>
+    <p>An AI-powered academic program design platform that automates curriculum generation, course design, outcome mapping, and program scheduling using Groq LLM.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <div class="hero-meta-dot" style="background:#534AB7"></div>
+        React + Vite frontend
+      </div>
+      <div class="hero-meta-item">
+        <div class="hero-meta-dot" style="background:#0F6E56"></div>
+        Node.js + Express backend
+      </div>
+      <div class="hero-meta-item">
+        <div class="hero-meta-dot" style="background:#EF9F27"></div>
+        Groq LLM (llama-3.3-70b)
+      </div>
+      <div class="hero-meta-item">
+        <div class="hero-meta-dot" style="background:#993C1D"></div>
+        MongoDB Atlas
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <div class="section-label">Core features</div>
+    <div class="section-title">What CourseCraft AI does</div>
+    <div class="section-sub">Eight integrated features covering the full academic content design workflow.</div>
+    <div class="features-grid">
+
+      <div class="feat-card">
+        <div class="feat-card-header">
+          <div class="feat-icon" style="background:#EEEDFE">
+            <svg viewBox="0 0 18 18" fill="none" stroke="#534AB7" stroke-width="1.5"><rect x="2" y="2" width="6" height="6" rx="1"/><rect x="10" y="2" width="6" height="6" rx="1"/><rect x="2" y="10" width="6" height="6" rx="1"/><rect x="10" y="10" width="6" height="6" rx="1"/></svg>
+          </div>
+          <div><h3>Curriculum Builder</h3></div>
+        </div>
+        <p>Generates a complete semester-wise academic curriculum from program inputs. Produces course codes, credit distribution, prerequisites, elective slots, and program outcomes.</p>
+        <div class="feat-tags">
+          <span class="tag tag-purple">Groq LLM</span>
+          <span class="tag tag-gray">Pre-computed credit plan</span>
+          <span class="tag tag-gray">OBE principles</span>
+        </div>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-card-header">
+          <div class="feat-icon" style="background:#E1F5EE">
+            <svg viewBox="0 0 18 18" fill="none" stroke="#0F6E56" stroke-width="1.5"><path d="M3 3h12v12H3z" rx="1"/><path d="M6 7h6M6 10h4"/></svg>
+          </div>
+          <div><h3>Course Generation</h3></div>
+        </div>
+        <p>Creates detailed course syllabi with unit-wise breakdowns, topics, estimated hours, course objectives, prerequisites, and optional lab experiment plans.</p>
+        <div class="feat-tags">
+          <span class="tag tag-green">Groq LLM</span>
+          <span class="tag tag-gray">From curriculum or manual</span>
+          <span class="tag tag-gray">Lab syllabus tab</span>
+        </div>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-card-header">
+          <div class="feat-icon" style="background:#FAEEDA">
+            <svg viewBox="0 0 18 18" fill="none" stroke="#854F0B" stroke-width="1.5"><path d="M3 14V9M7 14V6M11 14V4M15 14V8"/></svg>
+          </div>
+          <div><h3>Outcome Mapping</h3></div>
+        </div>
+        <p>Generates course outcomes tagged to Bloom's taxonomy levels (Remember → Create). Optionally produces a CO-PO correlation matrix. Accepts syllabus via textbox or PDF upload.</p>
+        <div class="feat-tags">
+          <span class="tag tag-amber">Groq LLM</span>
+          <span class="tag tag-gray">Bloom's taxonomy</span>
+          <span class="tag tag-gray">PDF extraction</span>
+          <span class="tag tag-gray">CO-PO matrix optional</span>
+        </div>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-card-header">
+          <div class="feat-icon" style="background:#EEEDFE">
+            <svg viewBox="0 0 18 18" fill="none" stroke="#534AB7" stroke-width="1.5"><rect x="2" y="3" width="14" height="12" rx="1.5"/><path d="M6 7h6M6 10h4"/><path d="M9 3V1"/></svg>
+          </div>
+          <div><h3>Program Generator</h3></div>
+        </div>
+        <p>Generates week-wise schedules for workshops, bootcamps, and short courses. Supports beginner/intermediate/advanced calibration and optional capstone project integration.</p>
+        <div class="feat-tags">
+          <span class="tag tag-purple">Groq LLM</span>
+          <span class="tag tag-gray">1–50 weeks</span>
+          <span class="tag tag-gray">Capstone option</span>
+        </div>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-card-header">
+          <div class="feat-icon" style="background:#FAECE7">
+            <svg viewBox="0 0 18 18" fill="none" stroke="#993C1D" stroke-width="1.5"><path d="M9 2v4M9 12v4M2 9h4M12 9h4"/><circle cx="9" cy="9" r="3"/></svg>
+          </div>
+          <div><h3>Contextual Chatbot</h3></div>
+        </div>
+        <p>Chat interface that answers questions about any selected curriculum, course, or program using the JSON data as context. Out-of-context questions return a styled red error.</p>
+        <div class="feat-tags">
+          <span class="tag tag-coral">Groq LLM</span>
+          <span class="tag tag-gray">JSON context injection</span>
+          <span class="tag tag-gray">Multi-turn history</span>
+        </div>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-card-header">
+          <div class="feat-icon" style="background:#E1F5EE">
+            <svg viewBox="0 0 18 18" fill="none" stroke="#0F6E56" stroke-width="1.5"><circle cx="9" cy="9" r="7"/><path d="M9 5v4l3 3"/></svg>
+          </div>
+          <div><h3>Dashboard & Activity</h3></div>
+        </div>
+        <p>Central dashboard showing stats (curricula, courses, outcomes, programs), quick action cards, and a unified recent activity feed across all content types with click-to-view.</p>
+        <div class="feat-tags">
+          <span class="tag tag-green">React Query</span>
+          <span class="tag tag-gray">Real-time stats</span>
+          <span class="tag tag-gray">Unified activity feed</span>
+        </div>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-card-header">
+          <div class="feat-icon" style="background:#FAEEDA">
+            <svg viewBox="0 0 18 18" fill="none" stroke="#854F0B" stroke-width="1.5"><path d="M9 2a7 7 0 100 14A7 7 0 009 2z"/><path d="M9 6v3l2 2"/></svg>
+          </div>
+          <div><h3>Profile & Personalization</h3></div>
+        </div>
+        <p>User profile management with name update, password change, profile reset (deletes all content), and custom AI instructions that are appended to every Groq generation request.</p>
+        <div class="feat-tags">
+          <span class="tag tag-amber">JWT auth</span>
+          <span class="tag tag-gray">Custom AI instructions</span>
+          <span class="tag tag-gray">Data reset</span>
+        </div>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-card-header">
+          <div class="feat-icon" style="background:#EEEDFE">
+            <svg viewBox="0 0 18 18" fill="none" stroke="#534AB7" stroke-width="1.5"><path d="M9 2v10M5 8l4 4 4-4"/><path d="M3 14h12"/></svg>
+          </div>
+          <div><h3>Export & Download</h3></div>
+        </div>
+        <p>Generates formatted PDF and DOCX reports from stored MongoDB JSON data using pdfkit and the docx npm package. Files are generated on demand and served directly for download.</p>
+        <div class="feat-tags">
+          <span class="tag tag-purple">pdfkit</span>
+          <span class="tag tag-gray">docx npm</span>
+          <span class="tag tag-gray">Direct download</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ARCHITECTURE -->
+  <section id="architecture">
+    <div class="section-label">Architecture</div>
+    <div class="section-title">System architecture</div>
+    <div class="section-sub">A monorepo with separate frontend and backend, connected through a REST API. All AI generation runs server-side via Groq.</div>
+
+    <div class="arch-diagram">
+
+      <div class="arch-row">
+        <div class="arch-label">Frontend</div>
+        <div class="arch-boxes">
+          <div class="arch-box ab-purple">React + Vite<small>UI layer</small></div>
+          <div class="arch-box ab-purple">React Router v6<small>client routing</small></div>
+          <div class="arch-box ab-purple">Tailwind CSS<small>styling</small></div>
+          <div class="arch-box ab-purple">Zustand / Context<small>auth state</small></div>
+        </div>
+      </div>
+
+      <div class="arch-arrow">↕ REST / JSON via axios</div>
+
+      <div class="arch-row">
+        <div class="arch-label">API Layer</div>
+        <div class="arch-boxes">
+          <div class="arch-box ab-green">Express.js<small>Node.js server</small></div>
+          <div class="arch-box ab-green">JWT middleware<small>auth guard</small></div>
+          <div class="arch-box ab-green">Validate middleware<small>input checks</small></div>
+          <div class="arch-box ab-green">Error middleware<small>global handler</small></div>
+        </div>
+      </div>
+
+      <div class="arch-arrow">↕ controller → service → model</div>
+
+      <div class="arch-row">
+        <div class="arch-label">Services</div>
+        <div class="arch-boxes">
+          <div class="arch-box ab-amber">groq.service.js<small>AI generation</small></div>
+          <div class="arch-box ab-amber">creditPlan.js<small>credit math</small></div>
+          <div class="arch-box ab-amber">assignCredits.js<small>slot filling</small></div>
+          <div class="arch-box ab-amber">pdfExtractor.js<small>client-side PDF</small></div>
+        </div>
+      </div>
+
+      <div class="arch-arrow">↕ read / write</div>
+
+      <div class="arch-row">
+        <div class="arch-label">Data</div>
+        <div class="arch-boxes">
+          <div class="arch-box ab-coral">MongoDB Atlas<small>User · Program · Course · Outcome · GeneratedProgram</small></div>
+        </div>
+      </div>
+
+      <div class="arch-arrow">↕ API call</div>
+
+      <div class="arch-row">
+        <div class="arch-label">AI</div>
+        <div class="arch-boxes">
+          <div class="arch-box ab-purple">Groq API<small>llama-3.3-70b-versatile</small></div>
+          <div class="arch-box ab-gray">pdfjs-dist<small>browser-side extraction</small></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="section-label" style="margin-top:40px">Folder structure</div>
+    <div class="impl-code" style="margin-top:8px">coursecraft-ai/
+├── frontend/
+│   └── src/
+│       ├── pages/          LandingPage · LoginPage · DashboardHomePage
+│       │                   CurriculumPage · CoursePage · OutcomePage
+│       │                   ProgramPage · ChatbotPage · ProfilePage
+│       ├── components/
+│       │   ├── landing/    Navbar · HeroSection · StatsBar · ...
+│       │   ├── auth/       LoginForm · SignupForm
+│       │   ├── dashboard/  Sidebar · TopBar
+│       │   ├── curriculum/ CurriculumForm · CurriculumResult · SemesterAccordion
+│       │   ├── course/     CourseGeneratorForm · CourseResult · LabSyllabusTab
+│       │   ├── outcome/    OutcomeInputForm · CourseOutcomeResult · COPOMatrixResult
+│       │   │               SyllabusInputPanel · POInputPanel · ProgramGeneratorForm
+│       │   │               ProgramResult · WeekCard
+│       │   └── chatbot/    ChatWindow · ChatMessage · ContextSelector
+│       ├── hooks/          useAuth · usePrograms · useCourses · useOutcomes
+│       │                   useGeneratedPrograms · useChatbot
+│       ├── context/        AuthContext
+│       ├── utils/          axiosInstance · bloomsUtils · pdfExtractor · timeAgo
+│       └── constants/      routes · config
+│
+└── backend/
+    └── src/
+        ├── models/         User · Program · Course · OutcomeMapping · GeneratedProgram
+        ├── routes/         auth · curriculum · course · outcome · program · chatbot
+        ├── controllers/    auth · curriculum · course · outcome · program · chatbot
+        ├── middleware/     auth · error · validate
+        ├── services/       groq.service (5 AI functions)
+        ├── utils/          creditPlan · assignCredits
+        └── config/         db · env</div>
+  </section>
+
+  <!-- PACKAGES -->
+  <section id="packages">
+    <div class="section-label">Dependencies</div>
+    <div class="section-title">Packages used</div>
+    <div class="section-sub">All packages used across the frontend and backend.</div>
+    <div class="pkg-grid">
+
+      <div class="pkg-section">
+        <div class="pkg-section-header">⬡ Frontend packages</div>
+        <div class="pkg-row"><div class="pkg-name">react</div><div class="pkg-desc">UI component library, v18 with hooks</div></div>
+        <div class="pkg-row"><div class="pkg-name">react-router-dom</div><div class="pkg-desc">Client-side routing, v6 with nested routes</div></div>
+        <div class="pkg-row"><div class="pkg-name">axios</div><div class="pkg-desc">HTTP client with request/response interceptors</div></div>
+        <div class="pkg-row"><div class="pkg-name">tailwindcss</div><div class="pkg-desc">Utility-first CSS framework</div></div>
+        <div class="pkg-row"><div class="pkg-name">lucide-react</div><div class="pkg-desc">Icon library used throughout the UI</div></div>
+        <div class="pkg-row"><div class="pkg-name">pdfjs-dist</div><div class="pkg-desc">Client-side PDF text extraction (outcome mapping)</div></div>
+        <div class="pkg-row"><div class="pkg-name">zustand</div><div class="pkg-desc">Lightweight UI state (active program, wizard steps)</div></div>
+        <div class="pkg-row"><div class="pkg-name">vite</div><div class="pkg-desc">Build tool and dev server</div></div>
+      </div>
+
+      <div class="pkg-section">
+        <div class="pkg-section-header">⬡ Backend packages</div>
+        <div class="pkg-row"><div class="pkg-name">express</div><div class="pkg-desc">HTTP server and routing framework</div></div>
+        <div class="pkg-row"><div class="pkg-name">mongoose</div><div class="pkg-desc">MongoDB ODM with schema and validation</div></div>
+        <div class="pkg-row"><div class="pkg-name">groq-sdk</div><div class="pkg-desc">Groq API client for LLM generation</div></div>
+        <div class="pkg-row"><div class="pkg-name">jsonwebtoken</div><div class="pkg-desc">JWT creation and verification for auth</div></div>
+        <div class="pkg-row"><div class="pkg-name">bcrypt</div><div class="pkg-desc">Password hashing with salt rounds</div></div>
+        <div class="pkg-row"><div class="pkg-name">cors · helmet</div><div class="pkg-desc">Security middleware, CORS and HTTP headers</div></div>
+        <div class="pkg-row"><div class="pkg-name">pdfkit</div><div class="pkg-desc">PDF generation for export reports</div></div>
+        <div class="pkg-row"><div class="pkg-name">docx</div><div class="pkg-desc">DOCX generation for Word export reports</div></div>
+        <div class="pkg-row"><div class="pkg-name">nodemon</div><div class="pkg-desc">Dev server auto-restart on file change</div></div>
+        <div class="pkg-row"><div class="pkg-name">concurrently</div><div class="pkg-desc">Runs frontend and backend from root npm script</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IMPLEMENTATION -->
+  <section id="implementation">
+    <div class="section-label">Implementation</div>
+    <div class="section-title">How each feature is implemented</div>
+    <div class="section-sub">Key implementation decisions for each major feature.</div>
+    <div class="impl-list">
+
+      <div class="impl-item">
+        <div class="impl-num">1</div>
+        <div class="impl-content">
+          <h4>Curriculum Builder — credit-safe generation</h4>
+          <p>Credits are never generated by Groq. JavaScript pre-computes exact per-semester credit targets using <code>buildSemesterPlan()</code>, distributes them into course slots using <code>assignCreditsToSlots()</code>, then merges the JS-computed credits into Groq's output after parsing. Groq only generates course names, types, prerequisites, and difficulty levels.</p>
+          <div class="impl-code">JS builds plan → Groq generates names only → merge credits in JS → validate → save</div>
+        </div>
+      </div>
+
+      <div class="impl-item">
+        <div class="impl-num">2</div>
+        <div class="impl-content">
+          <h4>Prerequisite ordering — post-processing validator</h4>
+          <p>After merging credits, a JS pass builds a <code>codeToSemester</code> map and checks every prerequisite. If a prerequisite points to the same or a later semester, it is automatically cleared to <code>null</code>. The prompt also enforces ordering rules to reduce occurrences.</p>
+          <div class="impl-code">Build codeToSemester map → for each course: if prereq.semester >= course.semester → set null</div>
+        </div>
+      </div>
+
+      <div class="impl-item">
+        <div class="impl-num">3</div>
+        <div class="impl-content">
+          <h4>Course generation — two-source approach</h4>
+          <p>Users can generate a course from an existing curriculum (auto-fills course fields from the selected curriculum's course list) or enter details manually. The Groq prompt generates unit-wise syllabus with topics and hours. If <code>includesLab</code> is true, a separate lab syllabus tab is rendered in the result.</p>
+          <div class="impl-code">Option 1: select curriculum → pick course → auto-fill → edit → generate
+Option 2: manual entry → fill all fields → generate</div>
+        </div>
+      </div>
+
+      <div class="impl-item">
+        <div class="impl-num">4</div>
+        <div class="impl-content">
+          <h4>PDF extraction — client-side only, never stored</h4>
+          <p><code>pdfjs-dist</code> runs entirely in the browser. The PDF is read as an ArrayBuffer, text is extracted page by page, cleaned, and pasted into the syllabus textarea. The raw PDF file never reaches the server. Only the extracted text string is stored in MongoDB on the <code>OutcomeMapping</code> document.</p>
+          <div class="impl-code">FileReader → ArrayBuffer → pdfjs getDocument → getTextContent → clean → textarea
+PDF discarded · only text string stored in MongoDB</div>
+        </div>
+      </div>
+
+      <div class="impl-item">
+        <div class="impl-num">5</div>
+        <div class="impl-content">
+          <h4>Outcome mapping — sequential two-step Groq pipeline</h4>
+          <p>Step 1 generates course outcomes with Bloom's taxonomy tags. Step 2 uses those COs as input to generate the CO-PO matrix. Both run in sequence inside a single controller function. The CO-PO matrix step is optional — triggered only when the user checks the matrix checkbox. <code>bloomsUtils.js</code> normalizes any "ing" verbs to present tense before display.</p>
+          <div class="impl-code">generateCourseOutcomes() → [if checkbox ticked] generateCOPOMatrix(COs) → save both</div>
+        </div>
+      </div>
+
+      <div class="impl-item">
+        <div class="impl-num">6</div>
+        <div class="impl-content">
+          <h4>Program Generator — difficulty and capstone calibration</h4>
+          <p>The Groq system prompt includes explicit week-count calibration (1–2 weeks = crash course, 7–12 = bootcamp, 25–50 = full course) and difficulty-level tone instructions. When <code>includesCapstone</code> is true, the last 2–3 weeks are reserved for capstone work and a <code>capstoneProject</code> object is generated and validated separately.</p>
+          <div class="impl-code">inputs → difficulty rules + week targets injected → Groq → validate week count
+→ if capstone: verify last week title contains "Capstone" → auto-fix if not</div>
+        </div>
+      </div>
+
+      <div class="impl-item">
+        <div class="impl-num">7</div>
+        <div class="impl-content">
+          <h4>Chatbot — JSON context injection</h4>
+          <p>On each chat request, the selected content's full JSON (curriculum, course, or program) is serialized into a structured plain-text context string and injected into the Groq system prompt. Groq is instructed to return the literal string <code>"OUT_OF_CONTEXT"</code> for unrelated questions. The backend checks for this string and sets <code>isOutOfContext: true</code>. The frontend renders this in a red error bubble. The last 10 messages of conversation history are sent on each turn for multi-turn context.</p>
+          <div class="impl-code">contextData → buildContextSummary() → system prompt → last 10 messages → Groq
+response === "OUT_OF_CONTEXT" → isOutOfContext: true → red bubble in UI</div>
+        </div>
+      </div>
+
+      <div class="impl-item">
+        <div class="impl-num">8</div>
+        <div class="impl-content">
+          <h4>Authentication — JWT with bcrypt</h4>
+          <p>Passwords are hashed with bcrypt (10 salt rounds) via a Mongoose pre-save hook. Login returns a JWT signed with <code>JWT_SECRET</code>, stored in localStorage as <code>cc_token</code>. All protected routes use <code>authMiddleware</code> which verifies the token and attaches <code>req.user</code>. An axios response interceptor clears the token and redirects to <code>/login</code> on any 401.</p>
+          <div class="impl-code">register → hash password → save → sign JWT → return token
+login → find user → comparePassword → sign JWT → return token</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- AI PIPELINE -->
+  <section id="ai-pipeline">
+    <div class="section-label">AI pipeline</div>
+    <div class="section-title">Groq LLM — five generation functions</div>
+    <div class="section-sub">All AI calls use <code>llama-3.3-70b-versatile</code> on Groq with <code>response_format: json_object</code> to enforce structured output.</div>
+
+    <div class="flow-grid">
+      <div class="flow-card">
+        <div class="flow-card-num">Function 1</div>
+        <h4>generateCurriculum()</h4>
+        <p>Generates course names, types, difficulty, and prerequisites only. Credits injected from JS. Temperature: 0.3. Max tokens: 8000.</p>
+      </div>
+      <div class="flow-card">
+        <div class="flow-card-num">Function 2</div>
+        <h4>generateCourseSyllabus()</h4>
+        <p>Generates unit titles, topics, hours, objectives, prerequisites, and lab experiments. Temperature: 0.4. Max tokens: 6000.</p>
+      </div>
+      <div class="flow-card">
+        <div class="flow-card-num">Function 3</div>
+        <h4>generateCourseOutcomes()</h4>
+        <p>Generates 5–8 COs with Bloom's level, verb, and category. Distribution percentages must sum to 100. Temperature: 0.3. Max tokens: 4000.</p>
+      </div>
+      <div class="flow-card">
+        <div class="flow-card-num">Function 4</div>
+        <h4>generateCOPOMatrix()</h4>
+        <p>Maps each CO to each PO using scale 0–3. Conservative by design — most cells should be 0 or 1. Temperature: 0.2. Max tokens: 3000.</p>
+      </div>
+      <div class="flow-card">
+        <div class="flow-card-num">Function 5</div>
+        <h4>generateWeeklyProgram()</h4>
+        <p>Generates week-wise schedule with topics, activities, deliverables. Week count and totals computed in JS post-parse. Temperature: 0.5. Max tokens: 8000.</p>
+      </div>
+      <div class="flow-card">
+        <div class="flow-card-num">Function 6</div>
+        <h4>chatWithContext()</h4>
+        <p>Injects JSON context as system prompt. Returns OUT_OF_CONTEXT for unrelated queries. Maintains last 10 messages for multi-turn. Temperature: 0.5. Max tokens: 1024.</p>
+      </div>
+    </div>
+
+    <div class="impl-code" style="margin-top:16px">All functions use callWithRetry(fn, retries=3, delay=2000ms) with exponential backoff
+Rate limit (429) errors and validation errors trigger automatic retry
+response_format: { type: "json_object" } enforced on all generation calls
+Computed values (credits, totals, distributions) always recalculated in JS after parsing</div>
+  </section>
+
+</div>
+
+<footer>
+  CourseCraft AI · Technical Documentation · MERN Stack + Groq LLM · 2025
+</footer>
+
+</body>
+</html>
